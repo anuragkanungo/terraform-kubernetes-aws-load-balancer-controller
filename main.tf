@@ -322,7 +322,7 @@ resource "kubernetes_secret" "alb_ingress_controller_sa_token" {
 }
 
 resource "kubernetes_service_account" "this" {
-  automount_service_account_token = true
+  automount_service_account_token = false
   secret {
     name = kubernetes_secret.alb_ingress_controller_sa_token.metadata[0].name
   }
@@ -340,7 +340,7 @@ resource "kubernetes_service_account" "this" {
       "app.kubernetes.io/managed-by" = "terraform"
     }
   }
-  depends_on = [var.alb_controller_depends_on]
+  depends_on = [var.alb_controller_depends_on, kubernetes_secret.alb_ingress_controller_sa_token]
 }
 
 resource "kubernetes_cluster_role" "this" {
