@@ -340,7 +340,7 @@ resource "kubernetes_service_account" "this" {
       "app.kubernetes.io/managed-by" = "terraform"
     }
   }
-  depends_on = [var.alb_controller_depends_on, kubernetes_secret.alb_ingress_controller_sa_token]
+  depends_on = [var.alb_controller_depends_on, kubernetes_secret_v1.alb_ingress_controller_sa_token]
 }
 
 resource "kubernetes_cluster_role" "this" {
