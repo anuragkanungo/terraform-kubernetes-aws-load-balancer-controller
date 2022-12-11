@@ -324,7 +324,7 @@ resource "kubernetes_secret_v1" "alb_ingress_controller_sa_token" {
 resource "kubernetes_service_account" "this" {
   automount_service_account_token = false
   secret {
-    name = kubernetes_secret.alb_ingress_controller_sa_token.metadata[0].name
+    name = kubernetes_secret_v1.alb_ingress_controller_sa_token.metadata[0].name
   }
   metadata {
     name      = "aws-load-balancer-controller"
