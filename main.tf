@@ -310,8 +310,22 @@ resource "aws_iam_role_policy_attachment" "this" {
   role       = aws_iam_role.this.name
 }
 
+resource "kubernetes_secret" "alb_ingress_controller_sa_token" {
+  metadata {
+    name        = "aws-load-balancer-controller-token"
+    namespace   = "kube-system"
+    annotations = {
+      "kubernetes.io/service-account.name" = "aws-load-balancer-controller"
+    }
+  }
+  type = "kubernetes.io/service-account-token"
+}
+
 resource "kubernetes_service_account" "this" {
   automount_service_account_token = true
+  secret {
+    name = kubernetes_secret.alb_ingress_controller_sa_token.metadata[0].name
+  }
   metadata {
     name      = "aws-load-balancer-controller"
     namespace = var.k8s_namespace
