@@ -310,7 +310,7 @@ resource "aws_iam_role_policy_attachment" "this" {
   role       = aws_iam_role.this.name
 }
 
-resource "kubernetes_secret" "alb_ingress_controller_sa_token" {
+resource "kubernetes_secret_v1" "alb_ingress_controller_sa_token" {
   metadata {
     name        = "aws-load-balancer-controller-token"
     namespace   = "kube-system"
